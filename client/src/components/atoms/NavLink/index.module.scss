@@ -1,0 +1,25 @@
+.root {
+	display: inline-block;
+	padding: 5px 10px;
+	font-size: 1.6rem;
+	color: #fff;
+	border: 2px solid #33f;
+	border-radius: 5px;
+	background-color: #33f;
+	box-shadow: 0 5px 5px -3px #313133;
+
+	&:hover {
+		color: #33f;
+		background-color: #fff;
+	}
+
+	&:focus {
+		color: #33f;
+		background-color: #fff;
+	}
+
+	&:active {
+		transform: translateY(3px);
+		box-shadow: none;
+	}
+}

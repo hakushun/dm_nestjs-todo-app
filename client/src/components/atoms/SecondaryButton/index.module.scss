@@ -1,0 +1,24 @@
+.root {
+	padding: 5px 10px;
+	font-size: 1.6rem;
+	color: #fff;
+	border: 2px solid #39f;
+	border-radius: 5px;
+	background-color: #39f;
+	box-shadow: 0 5px 5px -3px #313133;
+
+	&:hover {
+		color: #39f;
+		background-color: #fff;
+	}
+
+	&:focus {
+		color: #39f;
+		background-color: #fff;
+	}
+
+	&:active {
+		transform: translateY(3px);
+		box-shadow: none;
+	}
+}

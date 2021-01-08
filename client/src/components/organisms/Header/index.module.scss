@@ -1,0 +1,13 @@
+.root {
+	width: 100vw;
+	padding: 10px 16px;
+	border-bottom: 2px solid #949499;
+}
+
+.inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1200px;
+	margin: 0 auto;
+}

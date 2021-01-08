@@ -1,0 +1,22 @@
+.root {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 15px;
+	border: 1px solid #949499;
+	border-radius: 3px;
+	box-shadow: 0 5px 5px -3px #313133;
+}
+
+.todo {
+	padding: 5px 0;
+	font-size: 1.8rem;
+}
+
+.action {
+	text-align: center;
+}
+
+.wrapper {
+	margin-top: 10px;
+}

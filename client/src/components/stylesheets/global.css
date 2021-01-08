@@ -1,0 +1,11 @@
+html {
+	font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+	background-color: #f8f8ff;
+}
+
+main {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* https://www.colordic.org/colorscheme/1009 */

@@ -1,0 +1,30 @@
+.root {
+	position: relative;
+	display: inline-block;
+	margin-left: 10px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: 5px;
+		width: 0;
+		height: 0;
+		padding: 0;
+		transform: translateY(-50%);
+		pointer-events: none;
+		border-top: 7px solid #333;
+		border-right: 7px solid transparent;
+		border-left: 7px solid transparent;
+	}
+
+	> select {
+		padding: 5px;
+		padding-right: 25px;
+		font-size: 1.6rem;
+		cursor: pointer;
+		border: 1px solid #313133;
+		border-radius: 3px;
+		appearance: none;
+	}
+}

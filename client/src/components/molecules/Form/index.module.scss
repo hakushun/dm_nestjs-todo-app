@@ -1,0 +1,12 @@
+.root {
+	text-align: center;
+
+	> fieldset {
+		border: none;
+
+		> legend {
+			padding: 10px 0;
+			font-size: 1.8rem;
+		}
+	}
+}
