@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@nestjs/cli": "^7.0.0",
-    "@nestjs/common": "^7.0.0",
+    "@nestjs/common": "^7.6.5",
     "@nestjs/core": "^7.0.0",
     "@nestjs/jwt": "^7.1.0",
     "@nestjs/passport": "^7.1.0",
@@ -41,6 +41,7 @@
     "dotenv": "^8.2.0",
     "hbs": "^4.1.1",
     "helmet": "^4.1.1",
+    "knex": "^0.21.15",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^8.4.2",
