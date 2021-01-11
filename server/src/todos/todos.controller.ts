@@ -7,6 +7,8 @@ import {
 	ParseIntPipe,
 	Patch,
 	Post,
+	UsePipes,
+	ValidationPipe,
 } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodoStatusValidationPipe } from './pipes/todo-status-validation.pipe';
@@ -31,9 +33,8 @@ export class TodosController {
 	}
 
 	@Post()
-	createTodo(
-		@Body() todo: CreateTodoDto,
-	): Promise<Todo> {
+	@UsePipes(ValidationPipe)
+	createTodo(@Body() todo: CreateTodoDto): Promise<Todo> {
 		return this.todoService.createTodo(todo);
 	}
 
