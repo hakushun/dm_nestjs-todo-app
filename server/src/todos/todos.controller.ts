@@ -26,9 +26,7 @@ export class TodosController {
 	}
 
 	@Get(':id')
-	getTodoById(
-		@Param('id', ParseIntPipe) id: number,
-	): Promise<Todo> {
+	getTodoById(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
 		return this.todoService.getTodoById(id);
 	}
 
@@ -39,9 +37,7 @@ export class TodosController {
 	}
 
 	@Delete(':id')
-	deleteTodo(
-		@Param('id', ParseIntPipe) id: number,
-	): Promise<void> {
+	deleteTodo(@Param('id', ParseIntPipe) id: number): Promise<void> {
 		return this.todoService.deleteTodo(id);
 	}
 

@@ -1,6 +1,6 @@
 import { TodoStatus } from './todo-status';
 
-export class Todo  {
+export class Todo {
 	id: number;
 
 	title: string;
