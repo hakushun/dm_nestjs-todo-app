@@ -31,8 +31,10 @@ export class TodosController {
 	}
 
 	@Get(':id')
-	getTodoById(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
-		return this.todoService.getTodoById(id);
+  @Render('todo')
+	async getTodoById(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+		const todo = await this.todoService.getTodoById(id);
+		return { todo: todo[0], csrfToken: req.csrfToken() };
 	}
 
 	@Post()
