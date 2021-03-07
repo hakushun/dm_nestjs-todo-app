@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{csrfToken}}">
+  <title>Document</title>
+</head>
+
+<body>
+  <form id="signin_form">
+    <fieldset>
+      <legend>Sign In</legend>
+      <div>
+        <label for="username">username</label>
+        <input type="text" name="username" id="username">
+      </div>
+      <div>
+        <label for="password">password</label>
+        <input type="password" name="password" id="password">
+      </div>
+    </fieldset>
+    <button type="submit" id="submit_button">Sign In</button>
+  </form>
+  <div>
+    <a href="/signup">Sign Up</a>
+  </div>
+  <div>
+    <a href="/todos">TODO LIST</a>
+  </div>
+  <script>
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const submitButton = document.querySelector('#submit_button');
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const username = document.querySelector('#username').value;
+      const password = document.querySelector('#password').value;
+      const body = JSON.stringify({ username, password });
+      await fetch('/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'CSRF-Token': token
+        },
+        body
+      })
+    }
+    submitButton.addEventListener('click', handleSubmit);
+  </script>
+</body>
+
+</html>
