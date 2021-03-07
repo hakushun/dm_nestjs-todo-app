@@ -10,6 +10,9 @@
 </head>
 
 <body>
+  <div>
+    <button type="button" id="logout_button">Logout</button>
+  </div>
   <form id="todo_form">
     <fieldset>
       <legend>TODO</legend>
@@ -55,6 +58,7 @@
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     const submitButton = document.querySelector('#submit_button');
     const deleteButtons = document.querySelectorAll('#delete_button');
+    const logoutButton = document.querySelector('#logout_button');
 
     async function handleSubmit(e) {
       e.preventDefault();
@@ -81,10 +85,15 @@
       })
       window.location.href = '/todos'
     }
+    async function handleLogout() {
+      await fetch('/logout');
+      window.location.href = '/'
+    }
     submitButton.addEventListener('click', handleSubmit);
     deleteButtons.forEach(btn => {
       btn.addEventListener('click', handleDelete);
     });
+    logoutButton.addEventListener('click', handleLogout);
   </script>
 </body>
 
