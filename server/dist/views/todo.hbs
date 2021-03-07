@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{csrfToken}}">
+  <title>Document</title>
+</head>
+
+<body>
+  <form id="todo_form">
+    <fieldset>
+      <legend>TODO STATUS</legend>
+      <div>
+        <label for="select_status">status</label>
+        <select id="select_status" name="status" data-id={{todo.id}}>
+          <option value="OPEN">OPEN</option>
+          <option value="IN_PROGRESS">IN_PROGRESS</option>
+          <option value="DONE">DONE</option>
+        </select>
+      </div>
+    </fieldset>
+    <button type="submit" id="update_button">Update</button>
+  </form>
+
+  <dl>
+    <dt>id</dt>
+    <dd>{{todo.id}}</dd>
+    <dt>title</dt>
+    <dd>{{todo.title}}</dd>
+    <dt>detail</dt>
+    <dd>{{todo.detail}}</dd>
+    <dt>status</dt>
+    <dd id="todo_status" data-status="{{todo.status}}">{{todo.status}}</dd>
+    <dt>delete</dt>
+    <dd><button type="button" id="delete_button" data-id={{todo.id}}>delete</button></dd>
+  </dl>
+
+  <div>
+    <a href="/todos">TODO LIST</a>
+  </div>
+  <script>
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const selectbox = document.querySelector('#select_status');
+    const options = selectbox.querySelectorAll('option');
+    const currentStatus = document.querySelector('#todo_status').getAttribute('data-status');
+    const updateButton = document.querySelector('#update_button');
+    const deleteButtons = document.querySelectorAll('#delete_button');
+
+    options.forEach(opt => {
+      if (opt.value === currentStatus) opt.selected = true;
+    })
+
+    async function handleUpdate(e) {
+      e.preventDefault();
+      const { id } = selectbox.dataset;
+      const status = selectbox.value;
+      const body = JSON.stringify({ status })
+
+      await fetch(`/todos/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'CSRF-Token': token
+        },
+        body
+      })
+      window.location.href = `/todos/${id}`;
+    }
+
+    async function handleDelete() {
+      const { id } = this.dataset;
+      await fetch(`/todos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'CSRF-Token': token
+        },
+      })
+      window.location.href = '/todos';
+    }
+    updateButton.addEventListener('click', handleUpdate);
+    deleteButtons.forEach(btn => {
+      btn.addEventListener('click', handleDelete);
+    });
+  </script>
+</body>
+
+</html>

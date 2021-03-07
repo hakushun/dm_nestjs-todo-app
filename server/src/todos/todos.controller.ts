@@ -7,9 +7,12 @@ import {
 	ParseIntPipe,
 	Patch,
 	Post,
+	Render,
+	Req,
 	UsePipes,
 	ValidationPipe,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodoStatusValidationPipe } from './pipes/todo-status-validation.pipe';
 import { TodoStatus } from './todo-status';
@@ -21,13 +24,17 @@ export class TodosController {
 	constructor(private todoService: TodosService) {}
 
 	@Get()
-	getTodos(): Promise<Todo[]> {
-		return this.todoService.getTodos();
+  @Render('todos')
+	async getTodos(@Req() req: Request): Promise<{ todos: Todo[]; csrfToken: string; }> {
+		const todos = await this.todoService.getTodos()
+		return { todos, csrfToken: req.csrfToken() };
 	}
 
 	@Get(':id')
-	getTodoById(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
-		return this.todoService.getTodoById(id);
+  @Render('todo')
+	async getTodoById(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+		const todo = await this.todoService.getTodoById(id);
+		return { todo: todo[0], csrfToken: req.csrfToken() };
 	}
 
 	@Post()

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{csrfToken}}">
+  <title>Document</title>
+</head>
+
+<body>
+  <form id="todo_form">
+    <fieldset>
+      <legend>TODO</legend>
+      <div>
+        <label for="todo_title">title</label>
+        <input type="text" name="title" id="todo_title">
+      </div>
+      <div>
+        <label for="todo_detail">detail</label>
+        <input type="text" name="detail" id="todo_detail">
+      </div>
+    </fieldset>
+    <button type="submit" id="submit_button">Submit</button>
+  </form>
+  <form action="/todos" method="POST">
+    <p>csrfTokenなし</p>
+    <button type="submit">Submit</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>detail</th>
+        <th>status</th>
+        <th>delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each todos}}
+      <tr>
+        <td>{{id}}</td>
+        <td><a href='/todos/{{id}}'>{{title}}</a></td>
+        <td>{{detail}}</td>
+        <td>{{status}}</td>
+        <td><button type="button" id="delete_button" data-id={{id}}>delete</button></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <script>
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const submitButton = document.querySelector('#submit_button');
+    const deleteButtons = document.querySelectorAll('#delete_button');
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const title = document.querySelector('#todo_title').value;
+      const detail = document.querySelector('#todo_detail').value;
+      const body = JSON.stringify({ title, detail });
+      await fetch('/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'CSRF-Token': token
+        },
+        body
+      })
+      window.location.href = '/todos';
+    }
+    async function handleDelete() {
+      const target = this.dataset.id;
+      await fetch(`/todos/${target}`, {
+        method: 'DELETE',
+        headers: {
+          'CSRF-Token': token
+        },
+      })
+      window.location.href = '/todos'
+    }
+    submitButton.addEventListener('click', handleSubmit);
+    deleteButtons.forEach(btn => {
+      btn.addEventListener('click', handleDelete);
+    });
+  </script>
+</body>
+
+</html>
