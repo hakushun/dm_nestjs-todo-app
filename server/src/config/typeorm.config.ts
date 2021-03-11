@@ -10,4 +10,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
 	database: process.env.RDS_DB_NAME || process.env.DB_NAME,
 	entities: [__dirname + '/../**/*.entity.{js,ts}'],
 	synchronize: process.env.TYPEORM_SYNC === 'false' ? false : true,
+	ssl: { rejectUnauthorized : false },
 };
