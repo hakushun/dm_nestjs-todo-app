@@ -13,7 +13,11 @@ async function bootstrap() {
 		app.enableCors();
 	} else {
 		app.use(helmet());
-		app.enableCors({ origin: process.env.CORS_ORIGIN });
+		app.enableCors({
+			origin: process.env.CORS_ORIGIN,
+			allowedHeaders: ['Content-Type','Authorization'],
+			credentials: true
+		});
 	}
 
 	const port = process.env.PORT;
