@@ -1,6 +1,7 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import queryString from 'query-string';
-import { TodoStatus } from '../redux/modules/todos';
+import { Todo, TodoStatus } from '../redux/modules/todos';
+import { AuthInfo } from '../redux/modules/user';
 import { loadToken } from './utils';
 
 const { BASE_URL } = process.env;
@@ -11,7 +12,7 @@ const instance = axios.create({
 
 type AuthType = 'signin' | 'signup';
 
-export const getAuth = async (): Promise<AxiosResponse<any>> => {
+export const getAuth = async (): Promise<{ data: { username: string } }> => {
 	return instance.get(`${BASE_URL}/auth`, {
 		headers: { Authorization: `Bearer ${loadToken()}` },
 	});
@@ -20,11 +21,11 @@ export const getAuth = async (): Promise<AxiosResponse<any>> => {
 export const signUser = async (
 	userdata: { username: string; password: string },
 	type: AuthType,
-): Promise<AxiosResponse<any>> => {
+): Promise<{ data: AuthInfo }> => {
 	return instance.post(`${BASE_URL}/auth/${type}`, userdata);
 };
 
-export const getTodos = async (): Promise<AxiosResponse<any>> => {
+export const getTodos = async (): Promise<{ data: Todo[] }> => {
 	return instance.get(`${BASE_URL}/todos`, {
 		headers: { Authorization: `Bearer ${loadToken()}` },
 	});
@@ -33,7 +34,7 @@ export const getTodos = async (): Promise<AxiosResponse<any>> => {
 export const filterTodos = async (key: {
 	status?: string;
 	search?: string;
-}): Promise<AxiosResponse<any>> => {
+}): Promise<{ data: Todo[] }> => {
 	const queryObj: {
 		status?: string;
 		search?: string;
@@ -49,7 +50,7 @@ export const filterTodos = async (key: {
 	});
 };
 
-export const postTodo = (todo = {}): Promise<AxiosResponse<any>> => {
+export const postTodo = (todo = {}): Promise<{ data: Todo }> => {
 	return instance.post(`${BASE_URL}/todos`, todo, {
 		headers: { Authorization: `Bearer ${loadToken()}` },
 	});
@@ -58,7 +59,7 @@ export const postTodo = (todo = {}): Promise<AxiosResponse<any>> => {
 export const patchTodo = (data: {
 	id: number;
 	status: TodoStatus;
-}): Promise<AxiosResponse<any>> => {
+}): Promise<{ data: Todo }> => {
 	return instance.patch(
 		`${BASE_URL}/todos/${data.id}/status`,
 		{ status: data.status },
@@ -68,7 +69,7 @@ export const patchTodo = (data: {
 	);
 };
 
-export const deleteTodo = (id: number): Promise<AxiosResponse<any>> => {
+export const deleteTodo = (id: number): Promise<{ data: null }> => {
 	return instance.delete(`${BASE_URL}/todos/${id}`, {
 		headers: { Authorization: `Bearer ${loadToken()}` },
 	});
