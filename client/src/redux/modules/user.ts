@@ -23,7 +23,7 @@ type SigninPayload = {
 	username: string;
 	password: string;
 };
-type ResPayload = {
+export type AuthInfo = {
 	accessToken: string;
 	username: string;
 };
@@ -54,7 +54,7 @@ export const authUser = (): StepAction =>
 	]);
 export const signupActions = actionCreator.async<
 	SignupPayload,
-	ResPayload,
+	AuthInfo,
 	Error
 >('SIGNNUP_USER');
 export const signup = (body: SignupPayload): StepAction =>
@@ -69,7 +69,7 @@ export const signup = (body: SignupPayload): StepAction =>
 	]);
 export const signinActions = actionCreator.async<
 	SigninPayload,
-	ResPayload,
+	AuthInfo,
 	Error
 >('SIGNNIN_USER');
 export const signin = (body: SigninPayload): StepAction =>
