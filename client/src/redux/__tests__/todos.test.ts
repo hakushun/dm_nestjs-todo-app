@@ -1,21 +1,24 @@
 /* eslint-disable no-undefined */
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import fetchMock from 'fetch-mock';
 import steps from 'redux-effects-steps';
 import reducer, {
+	createTodo,
 	createTodoActions,
 	fetchTodos,
 	fetchTodosActions,
 	INITIAL_STATE,
+	removeTodo,
 	removeTodoActions,
 	selectTodos,
 	selectTodosLoading,
 	Todo,
 	TodoStatus,
+	updateTodoStatus,
 	updateTodoStatusActions,
 } from '../modules/todos';
 import { changeFilterActions } from '../modules/filter';
+import * as module from '../../libs/axios';
 
 const middlewares = [thunk, steps];
 const mockStore = configureMockStore(middlewares);
@@ -41,24 +44,81 @@ const createPayload = { title: 'title', detail: 'detail' };
 const updatePayload = { id: 1, status: TodoStatus.DONE };
 const deletePyload = { id: 1 };
 
-// stepaction test
-// describe('async actions', () => {
-// 	afterEach(() => {
-// 		fetchMock.restore();
-// 	});
+describe('Async Actions', () => {
+	it('fetchTodos: SUCCESS', async () => {
+		jest.spyOn(module, 'getTodos').mockImplementationOnce(async () => {
+			return Promise.resolve({ data: todos });
+		});
+		const expectedActions = [
+			fetchTodosActions.started(null),
+			fetchTodosActions.done({ params: null, result: todos }),
+		];
+		const store = mockStore({});
+		await store.dispatch(fetchTodos());
+		expect(store.getActions()).toEqual(expectedActions);
+	});
 
-// 	it('creates FETCH_TODOS_DONE when fetching todos has been done', async () => {
-// 		fetchMock.getOnce('/todos', { body: { todos } });
+	// it('fetchTodos: FAILED', async () => {
+	// 	jest.spyOn(module, 'getTodos').mockImplementationOnce(async () => {
+	// 		return Promise.reject(error);
+	// 	});
+	// 	const expectedActions = [
+	// 		fetchTodosActions.started(null),
+	// 		fetchTodosActions.failed({ params: null, error }),
+	// 	];
+	// 	const store = mockStore({});
+	// 	await store.dispatch(fetchTodos());
+	// 	expect(store.getActions()).toEqual(expectedActions);
+	// });
 
-// 		const expectedActions = [
-// 			fetchTodosActions.started(null),
-// 			fetchTodosActions.done({ params: null, result: todos }),
-// 		];
-// 		const store = mockStore({ todos: [] });
-// 		await store.dispatch(fetchTodos());
-// 		expect(store.getActions()).toEqual(expectedActions);
-// 	});
-// });
+	it('createTodo: SUCCESS', async () => {
+		jest.spyOn(module, 'postTodo').mockImplementationOnce(async () => {
+			return Promise.resolve({ data: todo });
+		});
+		const expectedActions = [
+			createTodoActions.started(createPayload),
+			createTodoActions.done({ params: createPayload, result: todo }),
+		];
+		const store = mockStore({});
+		await store.dispatch(createTodo(createPayload));
+		expect(store.getActions()).toEqual(expectedActions);
+	});
+
+	it('createTodo: FAILED', async () => {});
+
+	it('updateTodoStatus: SUCCESS', async () => {
+		jest.spyOn(module, 'patchTodo').mockImplementationOnce(async () => {
+			return Promise.resolve({ data: updateTodo });
+		});
+		const expectedActions = [
+			updateTodoStatusActions.started(updatePayload),
+			updateTodoStatusActions.done({
+				params: updatePayload,
+				result: updateTodo,
+			}),
+		];
+		const store = mockStore({});
+		await store.dispatch(updateTodoStatus(updatePayload));
+		expect(store.getActions()).toEqual(expectedActions);
+	});
+
+	it('updateTodoStatus: FAILED', async () => {});
+
+	it('removeTodo: SUCCESS', async () => {
+		jest.spyOn(module, 'deleteTodo').mockImplementationOnce(async () => {
+			return Promise.resolve({ data: null });
+		});
+		const expectedActions = [
+			removeTodoActions.started(deletePyload),
+			removeTodoActions.done({ params: deletePyload, result: null }),
+		];
+		const store = mockStore({});
+		await store.dispatch(removeTodo(deletePyload));
+		expect(store.getActions()).toEqual(expectedActions);
+	});
+
+	it('removeTodo: FAILED', async () => {});
+});
 
 // reducer test
 describe('Todos reducer test', () => {
