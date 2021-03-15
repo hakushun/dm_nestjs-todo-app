@@ -101,8 +101,8 @@ export const INITIAL_STATE: {
 	isLoading: boolean;
 } = {
 	form: {
-		username: '',
-		password: '',
+		username: 'sample',
+		password: 'Passw0rd!',
 	},
 	userInfo: {
 		username: '',
