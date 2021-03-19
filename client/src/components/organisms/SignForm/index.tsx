@@ -3,6 +3,7 @@ import { PrimaryButton } from '../../atoms/PrimaryButton';
 import { TextInput } from '../../molecules/TextInput';
 import { Form } from '../../molecules/Form';
 import styles from './index.module.scss';
+import { Dialog } from '../Dialog';
 
 export type Props = {
 	type: string;
@@ -26,30 +27,33 @@ export const SignForm: React.FC<Props> = React.memo((props) => {
 		submit,
 	} = props;
 	return (
-		<Form legend={legend} submit={submit}>
-			<div className={styles.wrapper}>
-				<TextInput
-					id={`${type}_username`}
-					label="username:"
-					type="text"
-					name="username"
-					value={username}
-					method={change}
-				/>
-			</div>
-			<div className={styles.wrapper}>
-				<TextInput
-					id={`${type}_password`}
-					label="password:"
-					type="password"
-					name="password"
-					value={password}
-					method={change}
-				/>
-			</div>
-			<div className={styles.wrapper}>
-				<PrimaryButton type="submit" text={text} disabled={disabled} />
-			</div>
-		</Form>
+		<>
+			<Dialog />
+			<Form legend={legend} submit={submit}>
+				<div className={styles.wrapper}>
+					<TextInput
+						id={`${type}_username`}
+						label="username:"
+						type="text"
+						name="username"
+						value={username}
+						method={change}
+					/>
+				</div>
+				<div className={styles.wrapper}>
+					<TextInput
+						id={`${type}_password`}
+						label="password:"
+						type="password"
+						name="password"
+						value={password}
+						method={change}
+					/>
+				</div>
+				<div className={styles.wrapper}>
+					<PrimaryButton type="submit" text={text} disabled={disabled} />
+				</div>
+			</Form>
+		</>
 	);
 });
