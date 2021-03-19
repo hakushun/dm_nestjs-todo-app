@@ -15,6 +15,7 @@ export default function App({
 	return (
 		<Provider store={store}>
 			<Component {...pageProps} />
+			<div id="overlay" />
 		</Provider>
 	);
 }
