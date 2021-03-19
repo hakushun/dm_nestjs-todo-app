@@ -49,7 +49,10 @@ export const authUser = (): StepAction =>
 		({ data }) => authUserActions.done({ params: null, result: data }),
 		({ code, message }) => {
 			Router.push('/');
-			return authUserActions.failed({ params: null, error: { code, message } });
+			return authUserActions.failed({
+				params: null,
+				error: { code, message },
+			});
 		},
 	]);
 export const signupActions = actionCreator.async<

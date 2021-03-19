@@ -59,13 +59,19 @@ export const fetchTodos = (): StepAction =>
 	steps(fetchTodosActions.started(null), () => getTodos(), [
 		({ data }) => fetchTodosActions.done({ params: null, result: data }),
 		({ code, message }) =>
-			fetchTodosActions.failed({ params: null, error: { code, message } }),
+			fetchTodosActions.failed({
+				params: null,
+				error: { code, message },
+			}),
 	]);
 export const createTodo = (body: CreatePayload): StepAction =>
 	steps(createTodoActions.started(body), () => postTodo(body), [
 		({ data }) => createTodoActions.done({ params: body, result: data }),
 		({ code, message }) =>
-			createTodoActions.failed({ params: body, error: { code, message } }),
+			createTodoActions.failed({
+				params: body,
+				error: { code, message },
+			}),
 	]);
 export const updateTodoStatus = (body: UpdatePayload): StepAction =>
 	steps(updateTodoStatusActions.started(body), () => patchTodo(body), [
@@ -80,7 +86,10 @@ export const removeTodo = (body: DeletePayload): StepAction =>
 	steps(removeTodoActions.started(body), () => deleteTodo(body.id), [
 		() => removeTodoActions.done({ params: body, result: null }),
 		({ code, message }) =>
-			removeTodoActions.failed({ params: body, error: { code, message } }),
+			removeTodoActions.failed({
+				params: body,
+				error: { code, message },
+			}),
 	]);
 
 export const INITIAL_STATE: {
