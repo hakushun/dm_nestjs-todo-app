@@ -1,4 +1,5 @@
 import React from 'react';
+import { MiniLoading } from '../../atoms/MiniLoading';
 import { PrimaryButton } from '../../atoms/PrimaryButton';
 import { Form } from '../../molecules/Form';
 import { TextInput } from '../../molecules/TextInput';
@@ -9,12 +10,13 @@ export type Props = {
 		title: string;
 		detail: string;
 	};
+	isLoading: boolean;
 	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 };
 
 export const TodoForm: React.FC<Props> = React.memo((props) => {
-	const { todo, handleChange, handleSubmit } = props;
+	const { todo, isLoading, handleChange, handleSubmit } = props;
 
 	return (
 		<section className={styles.root}>
@@ -40,7 +42,15 @@ export const TodoForm: React.FC<Props> = React.memo((props) => {
 					/>
 				</div>
 				<div className={styles.wrapper}>
-					<PrimaryButton type="submit" text="Create Todo" disabled={false} />
+					{isLoading ? (
+						<MiniLoading />
+					) : (
+						<PrimaryButton
+							type="submit"
+							text="Create Todo"
+							disabled={isLoading}
+						/>
+					)}
 				</div>
 			</Form>
 		</section>
