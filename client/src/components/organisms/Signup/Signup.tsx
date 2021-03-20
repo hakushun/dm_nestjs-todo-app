@@ -19,6 +19,7 @@ export const Signup: React.FC<Props> = React.memo((props) => {
 			legend="SignUp Form"
 			text="Sign Up"
 			disabled={isLoading}
+			isLoading={isLoading}
 			change={handleChange}
 			submit={handleSubmit}
 		/>
