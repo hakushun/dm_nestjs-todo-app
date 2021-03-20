@@ -17,5 +17,13 @@ export const TodoList: React.FC = () => {
 		dispatch(fetchTodos());
 	}, []);
 
-	return <>{isLoading ? <Loading /> : <Presentational todos={todos} />}</>;
+	return (
+		<>
+			{isLoading ? (
+				<Loading />
+			) : (
+				<Presentational todos={todos} isLoading={isLoading} />
+			)}
+		</>
+	);
 };
