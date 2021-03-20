@@ -10,11 +10,12 @@ import { TodoItem as Presentational } from './TodoItem';
 
 export type Props = {
 	todo: Todo;
+	isLoading: boolean;
 };
 
 export const TodoItem: React.FC<Props> = (props) => {
 	const dispatch = useDispatch();
-	const { todo } = props;
+	const { todo, isLoading } = props;
 
 	const handleSelectStatus = useCallback(
 		(id: number, status: TodoStatus) => {
@@ -34,6 +35,7 @@ export const TodoItem: React.FC<Props> = (props) => {
 	return (
 		<Presentational
 			todo={todo}
+			isLoading={isLoading}
 			handleSelectStatus={handleSelectStatus}
 			handleRemoveTodo={handleRemoveTodo}
 		/>

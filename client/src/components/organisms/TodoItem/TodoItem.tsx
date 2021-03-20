@@ -6,6 +6,7 @@ import styles from './index.module.scss';
 
 export type Props = {
 	todo: Todo;
+	isLoading: boolean;
 	handleSelectStatus: (id: number, status: TodoStatus) => void;
 	handleRemoveTodo: (
 		id: number,
@@ -14,7 +15,7 @@ export type Props = {
 };
 
 export const TodoItem: React.FC<Props> = React.memo((props) => {
-	const { todo, handleSelectStatus, handleRemoveTodo } = props;
+	const { todo, isLoading, handleSelectStatus, handleRemoveTodo } = props;
 
 	return (
 		<li className={styles.root} key={todo.id}>
@@ -33,7 +34,7 @@ export const TodoItem: React.FC<Props> = React.memo((props) => {
 					<SecondaryButton
 						type="button"
 						text="Delete"
-						disabled={false}
+						disabled={isLoading}
 						method={(e) => handleRemoveTodo(todo.id, e)}
 					/>
 				</div>
