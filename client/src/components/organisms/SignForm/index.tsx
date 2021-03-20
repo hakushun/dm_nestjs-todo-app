@@ -4,6 +4,7 @@ import { TextInput } from '../../molecules/TextInput';
 import { Form } from '../../molecules/Form';
 import styles from './index.module.scss';
 import { Dialog } from '../Dialog';
+import { MiniLoading } from '../../atoms/MiniLoading';
 
 export type Props = {
 	type: string;
@@ -12,6 +13,7 @@ export type Props = {
 	legend: string;
 	text: string;
 	disabled: boolean;
+	isLoading: boolean;
 	change: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	submit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 };
@@ -23,6 +25,7 @@ export const SignForm: React.FC<Props> = React.memo((props) => {
 		legend,
 		text,
 		disabled,
+		isLoading,
 		change,
 		submit,
 	} = props;
@@ -51,7 +54,11 @@ export const SignForm: React.FC<Props> = React.memo((props) => {
 					/>
 				</div>
 				<div className={styles.wrapper}>
-					<PrimaryButton type="submit" text={text} disabled={disabled} />
+					{isLoading ? (
+						<MiniLoading />
+					) : (
+						<PrimaryButton type="submit" text={text} disabled={disabled} />
+					)}
 				</div>
 			</Form>
 		</>
